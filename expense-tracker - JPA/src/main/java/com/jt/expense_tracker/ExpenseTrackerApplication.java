@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 
-
 @SpringBootApplication
 public class ExpenseTrackerApplication {
 	
