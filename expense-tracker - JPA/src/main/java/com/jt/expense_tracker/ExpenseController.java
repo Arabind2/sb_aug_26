@@ -24,11 +24,10 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
  
 @RestController
-
 @RequiredArgsConstructor
 @CrossOrigin ("http://localhost:5173")
 public class ExpenseController {
-    private final JdbcTemplate jdbcTemplate;
+   
      private final ExpenseService expenseService;
 
     private static final String EXPENSES_TABLE="expenses";
