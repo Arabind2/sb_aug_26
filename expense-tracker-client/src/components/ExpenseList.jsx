@@ -1,102 +1,73 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
 
-const ExpenseList = () => {
-       const [expenses, setExpenses]=useState([])
-    const getExpences=async ()=>{
-        try{
-        const responce=await axios.get("http://localhost:8080/expenses")
-        console.log("data is", responce.data);
-        setExpenses(responce.data)
-        }catch(err){
-            console.log("Error is", err);
-            
-        }
-    }
-     
- 
- 
-    const handleDelete=async (expenseId)=>{
-        try {
-            const responce=await axios.delete('http://localhost:8080/expense/'+expenseId)
-            console.log(responce);
-            
-            if (responce.status===204) {
-                getExpences();
-            }else{
-                alert("Something went wrong !!!")
-            }
-        } catch (error) {
-          console.log("Some error occured :- ", error);
-            
-        }
-    }
+const ExpenseList = ({ expenses, getExpenses }) => {
 
-       useEffect(()=>{
-           getExpences()
-    },[])
+  const handleDelete = async (expenseId) => {
+    if(confirm("Are you sure want to delete the Expense ?")) {
+      try {
+        const response = await axios.delete('http://localhost:8080/expense/' + expenseId)
+        if(response.status === 204) {
+          getExpenses();
+        } else {
+          alert("Something went wrong !!!")
+        }
+      } catch (error) {
+        console.log("Some Error occurred:-", error)
+      }
+    }
+  }
+
   return (
-       <div className='bg-white rounded-2xl shadow-md  p-6 mb-6'>
-    <h2 className='text-xl font-semibold text-gray-700 mb-4'> Add Expense</h2>
-    
-    <div className='overflow-x-auto'>
-         <table className='w-full text-sm text-left'>
-        <thead>
+    <div className='bg-white rounded-2xl shadow-md p-6 mb-6'>
+      <h2 className='text-xl font-semibold text-gray-700 mb-4'>Expense List</h2>
+
+      <div className='overflow-x-auto'>
+        <table className='w-full text-sm text-left'>
+          <thead>
             <tr className='bg-gray-100 text-gray-600 uppercase text-xs font-semibold'>
-                   <td className='px-4 py-3'>#</td>
-                <td className='px-4 py-3'>Title</td>
-                <td className='px-4 py-3'>Category</td>
-                <td className='px-4 py-3'>Price</td>
-                <td className='px-4 py-3'>Date</td>
-                <td className='px-4 py-3 text-center'>Action</td>
+              <td className='px-4 py-3'>#</td>
+              <td className='px-4 py-3'>Title</td>
+              <td className='px-4 py-3'>Category</td>
+              <td className='px-4 py-3'>Price</td>
+              <td className='px-4 py-3'>Date</td>
+              <td className='px-4 py-3 text-center'>Action</td>
             </tr>
-        </thead>
+          </thead>
 
-        <tbody>
-            <tr className='border-b border-gray-200 hover:bg-gray-50 transition-colors'>
-                <td className='px-4 py-3 font-medium'>1</td>
-                <td className='px-4 py-3 text-gray-700 font-medium'>Mobile Recharge</td>
-                <td className='px-4 py-3'><span className='bg-blue-300 px-4 rounded-full text-xs'>Utilities</span></td>
-                <td className='px-4 py-3 text-gray-700 font-medium'>9999.88</td>
-                <td className='px-4 py-3 text-gray-600 font-medium'>2026-10-06</td>
-
-                <td className='px-4 py-3 '>
-                    <div className='flex gap-2  justify-center'>
-                        <button className='bg-yellow-400 hover:bg-yellow-500 text-white font-semibold rounded-lg px-3 py-1.5 transition-colors duration-200 text-xs'>Edit</button>
-                    <button className='bg-red-400 hover:bg-red-500 text-white font-semibold rounded-lg px-3 py-1.5 transition-colors duration-200 text-xs'>Delete</button>
-                    </div>
-                    
-                </td>
-            </tr>
-
-
-            {
-             expenses.map((exp,idx)=>(
+          <tbody>
+            { !expenses.length ?
+              <tr><td colSpan={6} className='text-center text-gray-400 py-2 text-lg font-medium italic'>No expenses recorded yet.</td></tr> :
+              expenses.map((exp, idx) => (
                 <tr key={idx} className='border-b border-gray-200 hover:bg-gray-50 transition-colors'>
-                <td className='px-4 py-3 font-medium'>{exp.id}</td>
-                <td className='px-4 py-3 text-gray-700 font-medium'>{exp.title}</td>
-                <td className='px-4 py-3'><span className='bg-blue-300 px-4 rounded-full text-xs'>{exp.category}</span></td>
-                <td className='px-4 py-3 text-gray-700 font-medium'>{exp.price}</td>
-                <td className='px-4 py-3 text-gray-600 font-medium'>{exp.date}</td>
+                  <td className='px-4 py-3 text-gray-400'>{idx+1}</td>
 
-                <td className='px-4 py-3 '>
-                    <div className='flex gap-2  justify-center'>
-                        <button className='bg-yellow-400 hover:bg-yellow-500 text-white font-semibold rounded-lg px-3 py-1.5 transition-colors duration-200 text-xs'>Edit</button>
-                    <button onClick={()=>handleDelete(exp.id)} className='bg-red-400 hover:bg-red-500 text-white font-semibold rounded-lg px-3 py-1.5 transition-colors duration-200 text-xs'>Delete</button>
+                  <td className='px-4 py-3 text-gray-700 font-medium'>
+                    {exp.title}
+                  </td>
+
+                  <td className='px-4 py-3'>
+                    <span className='bg-blue-100 text-blue-700 font-semibold rounded-full px-2 py-1 text-xs'>
+                      {exp.category}
+                    </span>
+                  </td>
+
+                  <td className='px-4 py-3 font-semibold text-gray-700'>{exp.price}</td>
+
+                  <td className='px-4 py-3 text-gray-600'>{exp.date}</td>
+
+                  <td className='px-4 py-3'>
+                    <div className='flex gap-2 justify-center'>
+                      <button className='bg-yellow-400 hover:bg-yellow-500 text-white font-semibold rounded-lg px-3 py-1.5 transition-colors duration-200 text-xs'>Edit</button>
+                      <button onClick={() => handleDelete(exp.id)} className='bg-red-400 hover:bg-red-500 text-white font-semibold rounded-lg px-3 py-1.5 transition-colors duration-200 text-xs'>Delete</button>
                     </div>
-                    
-                </td>
-            </tr>
-             ))   
+                  </td>
+                </tr>
+              ))
             }
-            
-        </tbody>
+          </tbody>
+        </table>
+      </div>
 
-
-       
-    </table>
-    </div>
-   
     </div>
   )
 }
