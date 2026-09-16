@@ -5,13 +5,15 @@ import ExpenseList from "./components/ExpenseList";
 import Footer from "./components/Footer";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import expenceService from "./services/expenceService";
 
 export default function App() {
   const [expenses, setExpenses] = useState([])
 
+  const [editingExpence , setEditingExpence]=useState(null)
   const getExpenses = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/expenses")
+      const response = await expenceService.getExpences()
       setExpenses(response.data)
     } catch(err) {
       console.log("Some Error occurred:-", err)
@@ -27,9 +29,18 @@ export default function App() {
       <Header />
 
       <main className="max-w-4xl mx-auto py-4 mt-4">
-        <ExpenseForm getExpenses={getExpenses} />
+        <ExpenseForm 
+        getExpenses={getExpenses} 
+        editingExpence={editingExpence} 
+        setEditingExpence={setEditingExpence}
+        />
         <Summary expenses={expenses} />
-<ExpenseList expenses={expenses} getExpenses={getExpenses} />      </main>
+<ExpenseList 
+  expenses={expenses} 
+    getExpenses={getExpenses} 
+    setEditingExpence={setEditingExpence}
+    />    
+      </main>
 
       {/* Footer */}
       <Footer />
