@@ -103,7 +103,7 @@ public class MethodsOfJpaApplication {
 //      Optional<Product> result = productRepository.getProduct("product - 1", "NOKIA");
 // result.ifPresent(System.out::println);
 
-// int affectRow=productRepository.updatePrice(52, 1000);
+// int affectRow=productRepository.updatePrice(52, 2000);
 // System.out.println("No of affected rows : "+affectRow);
 
 ordersService.placeOrder(52, 9);
