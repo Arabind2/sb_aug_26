@@ -15,20 +15,22 @@ import com.Teacher;
 public class HelloApplication {
 
 	public static void main(String[] args) {
-	ApplicationContext context=SpringApplication.run(HelloApplication.class, args);  
+	ApplicationContext context=SpringApplication.run(HelloApplication.class, args); 
+	//------------------ 
 	//1. using XML file
 	// Greet greet=context.getBean(Greet.class);
 	// greet.sayHello();
 	// 	System.out.println("Hello SpringBoot");
-
+//-------------------------
 		//2. using Stereotype annotation 
 		// Person person=context.getBean(Person.class);
 		// person.sayHello();
-
+//-----------------------------
 	//3. using Configuration file
+
 	Student student=context.getBean(Student.class);
 	student.sayHello();
-
+//-------------------
 	//using ComponentScan
 	// Teacher teacher=context.getBean(Teacher.class);
 	// teacher.sayHello();

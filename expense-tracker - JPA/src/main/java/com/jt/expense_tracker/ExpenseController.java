@@ -9,6 +9,7 @@ import javax.xml.crypto.KeySelector.Purpose;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,36 +24,37 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
  
 @RestController
-
 @RequiredArgsConstructor
+@RequestMapping("/expenses")
+@CrossOrigin ("http://localhost:5173")
 public class ExpenseController {
-    private final JdbcTemplate jdbcTemplate;
+   
      private final ExpenseService expenseService;
 
     private static final String EXPENSES_TABLE="expenses";
-    @GetMapping("/expenses")
+    @GetMapping
  public List<Expense> getExpenses() {
     return expenseService.getExpenses();
   }
 
-@GetMapping("/expenses/{id}")
+@GetMapping("/{id}")
   public Expense getExpenseById(@PathVariable int id) {
     return expenseService.getExpenseById(id);
   }
 
     
- @PostMapping("/expenses")
+ @PostMapping
  @ResponseStatus(code=HttpStatus.CREATED) //-201
  public Expense createExpense(@RequestBody Expense expense) {
     return expenseService.addExpense(expense);
   }
 
-    @DeleteMapping("/expense/{id}")
+    @DeleteMapping("/{id}")
        @ResponseStatus(value=HttpStatus.NO_CONTENT) //-204
   public void deleteExpense(@PathVariable int id) {
     expenseService.deleteExpenseById(id);
   }
-    @PutMapping("/expenses")
+    @PutMapping
      @ResponseStatus(HttpStatus.ACCEPTED) //--202
 
    public Expense updateExpense(@RequestBody Expense expense) {
