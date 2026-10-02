@@ -1,0 +1,81 @@
+package com.example.one_to_one;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+
+import java.util.List;
+
+@SpringBootApplication
+@RequiredArgsConstructor
+public class ManyToOneApplication {
+    private final SubjectRepository subjectRepository;
+    private final TeacherRepository teacherRepository;
+    public static void main(String[] args) {
+        SpringApplication.run(ManyToOneApplication.class);
+    }
+
+    @Bean
+    public CommandLineRunner commandLineRunner(){
+        return args -> {
+   // oneWayBinding();
+//
+//            Teacher teacher=Teacher.builder().teacherName("Ankit").build();
+//          Subject subject1=  Subject.builder().subjectName("HTML").teacher(teacher).build();
+//            Subject subject2=  Subject.builder().subjectName("CSS").teacher(teacher).build();
+//            Subject subject3=  Subject.builder().subjectName("JavaScript").teacher(teacher).build();
+//
+//            teacher.setSubjects(List.of(subject1,subject2,subject3));
+//  teacherRepository.save(teacher);
+
+            //UPDATE-------imp
+//            Teacher teacher=teacherRepository.findById(2).orElseThrow();
+//            teacher.setTeacherName("Anirudh");
+//            teacherRepository.save(teacher);
+//
+//            Subject subject=subjectRepository.findById(4).orElseThrow();
+//           subject.setSubjectName("MERN");
+//            subjectRepository.save(subject);
+
+
+
+            //DELETE
+//teacherRepository.deleteById(2);
+
+            //Extract
+//            teacherRepository.findById(1).orElseThrow().getSubjects().forEach(sub->{
+//                System.out.println(sub.getTeacher().getTeacherName()+"\t->\t"+sub.getSubjectName());
+//            });
+        };
+    }
+
+    private void oneWayBinding(){
+//        Teacher teacher=Teacher.builder()
+//                .teacherName("Amit").build();
+//
+//        Subject subject1=Subject.builder().subjectName("C").teacher(teacher).build();
+//        Subject subject2=Subject.builder().subjectName("C++").teacher(teacher).build();
+//        Subject subject3=Subject.builder().subjectName("Java").teacher(teacher).build();
+//
+//        subjectRepository.saveAll(List.of(subject1,subject2,subject3));
+
+        //UPDATE
+//       Teacher teacher=teacherRepository.findById(1).orElseThrow();
+//       teacher.setTeacherName("Anubhav");
+//       teacherRepository.save(teacher);
+//
+//       Subject subject=subjectRepository.findById(2).orElseThrow();
+//       subject.setSubjectName("C++ programming");
+//       subjectRepository.save(subject);
+
+        // DELETE--> imp
+//        Subject subject=subjectRepository.findById(3).orElseThrow();
+//        subjectRepository.delete(subject);
+        //Extract----
+//        subjectRepository.findAll().forEach((sub)->{
+//            System.out.println(sub.getSubjectName()+"\t->\t"+sub.getTeacher().getTeacherName());
+//        });
+    }
+}
